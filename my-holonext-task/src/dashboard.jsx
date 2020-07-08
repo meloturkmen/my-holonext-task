@@ -1,20 +1,21 @@
 import React from 'react';
-import { FreeCamera, Vector3, HemisphericLight, SceneLoader, ArcRotateCamera } from '@babylonjs/core';
+import { Vector3, HemisphericLight, SceneLoader, ArcRotateCamera, AssetsManager,Color3,StandardMaterial } from '@babylonjs/core';
 import "@babylonjs/loaders/glTF"
+import {Button,AdvancedDynamicTexture} from "@babylonjs/gui"
 import SceneComponent from 'babylonjs-hook'; // ^^ point to file we created above or 'babylonjs-hook' NPM.
 import './App.css'
 
-let box;
+
 let modal;
 
 const onSceneReady = scene => {
-  // This creates and positions a free camera (non-mesh)
-  var camera = new ArcRotateCamera("Camera", 0, 0.8, 100, Vector3.Zero(), scene);
+  var mesh;
+  // This creates a camera and position it
+  var camera = new ArcRotateCamera("Camera", 0, 0.8, 300, Vector3.Zero(), scene);
  
-
+  // This creates a canvas
   const canvas = scene.getEngine().getRenderingCanvas();
 
-  console.log(scene.getEngine())
   // This attaches the camera to the canvas
   camera.attachControl(canvas, true);
 
@@ -24,40 +25,73 @@ const onSceneReady = scene => {
 
   // Default intensity is 1. Let's dim the light a small amount
   light.intensity = 0.7;
+
+  // Creating material colors to change color of textures
+  var testMat = new StandardMaterial("", scene);
+  testMat.diffuseColor = new Color3.Blue();
+  var testMat_2 = new StandardMaterial("", scene);
+  testMat_2.diffuseColor = new Color3.Green();
+        
+  var assetsManager = new AssetsManager(scene);
   
+  var advancedTexture = AdvancedDynamicTexture.CreateFullscreenUI("UI");
+
+
+  // Uploading gltf file
   modal = SceneLoader.ImportMesh("","scenes/office_chair/","scene.gltf" ,scene, function (newMeshes) {
-    // do something with the scene
-    camera.target = newMeshes[0];
-    console.log(newMeshes)
-}); 
+    mesh = newMeshes[0]
+    camera.target = mesh;
+  })
 
-    
+  // Button creation and add functionality to change color
+  var button_one = Button.CreateSimpleButton("but_one", "Green");
+  button_one.width = 0.2;
+  button_one.height = "40px";
+  button_one.color = "white";
+  button_one.background = "green";
+  button_one.top = "100px";
+  button_one.onPointerClickObservable.add(function(state) {
+    if (state) {
+      mesh.dispose();
+      modal = SceneLoader.ImportMesh("","scenes/office_chair/","scene.gltf" ,scene, function (newMeshes) {
+        for(var i=0;i<newMeshes.length;i++){
+          newMeshes[i].material = testMat_2;
+        }
+        mesh = newMeshes[0]
+        camera.target = mesh;
+      })  
+    }
+  }); 
 
-  /*
+  advancedTexture.addControl(button_one);
 
-  // Our built-in 'box' shape.
-  box = MeshBuilder.CreateBox("box", {size: 2}, scene);
+  // Same with first one, only difference is color and position
+  var button_two = Button.CreateSimpleButton("but_two", "Blue");
+  button_two.width = 0.2;
+  button_two.height = "40px";
+  button_two.color = "white";
+  button_two.background = "blue";
+  button_two.top = "150px";
+  button_two.onPointerClickObservable.add(function(state) {
+    if (state) {
+      mesh.dispose();
+      modal = SceneLoader.ImportMesh("","scenes/office_chair/","scene.gltf" ,scene, function (newMeshes) {
+        for(var i=0;i<newMeshes.length;i++){
+          newMeshes[i].material = testMat;
+        }
+        mesh = newMeshes[0]
+        camera.target = mesh;
+      })  
+    }
+  }); 
 
-  // Move the box upward 1/2 its height
-  box.position.y = 1;
-
-  // Our built-in 'ground' shape.
-  MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
-
-  */
+  advancedTexture.addControl(button_two);
+	
+	assetsManager.load();
+  
 }
 
-/**
- * Will run on every frame render.  We are spinning the box on y-axis.
- */
-const onRender = scene => {
-  if (box !== undefined) {
-    var deltaTimeInMillis = scene.getEngine().getDeltaTime();
-
-    const rpm = 10;
-    //box.rotation.y += ((rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000));
-  }
-}
+const onRender = scene => {}
 
 export default () => (
     <div>
