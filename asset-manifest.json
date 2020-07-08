@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/my-holonext-task/static/css/main.79ab1726.chunk.css",
+    "main.js": "/my-holonext-task/static/js/main.9f9ffba6.chunk.js",
+    "main.js.map": "/my-holonext-task/static/js/main.9f9ffba6.chunk.js.map",
+    "runtime-main.js": "/my-holonext-task/static/js/runtime-main.f187ac22.js",
+    "runtime-main.js.map": "/my-holonext-task/static/js/runtime-main.f187ac22.js.map",
+    "static/js/2.c38e2a30.chunk.js": "/my-holonext-task/static/js/2.c38e2a30.chunk.js",
+    "static/js/2.c38e2a30.chunk.js.map": "/my-holonext-task/static/js/2.c38e2a30.chunk.js.map",
+    "index.html": "/my-holonext-task/index.html",
+    "precache-manifest.f797b5eb599f8d1655592556ae99151c.js": "/my-holonext-task/precache-manifest.f797b5eb599f8d1655592556ae99151c.js",
+    "service-worker.js": "/my-holonext-task/service-worker.js",
+    "static/css/main.79ab1726.chunk.css.map": "/my-holonext-task/static/css/main.79ab1726.chunk.css.map",
+    "static/js/2.c38e2a30.chunk.js.LICENSE.txt": "/my-holonext-task/static/js/2.c38e2a30.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f187ac22.js",
+    "static/js/2.c38e2a30.chunk.js",
+    "static/css/main.79ab1726.chunk.css",
+    "static/js/main.9f9ffba6.chunk.js"
+  ]
+}
